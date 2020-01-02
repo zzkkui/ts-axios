@@ -11,3 +11,10 @@ export function isDate(val: any): val is Date {
 export function isObject(val: any): val is Object {
   return toRawType(val) === 'Object'
 }
+
+export function extend<T, U>(to: T, from: U) {
+  for (const key in from) {
+    ;(to as T & U)[key] = from[key] as any
+  }
+  return to as T & U
+}
