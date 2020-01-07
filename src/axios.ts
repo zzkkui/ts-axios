@@ -4,8 +4,9 @@ import { extend } from './helpers/utils'
 
 function createInstance(): AxiosInstance {
   const context = new Axios()
-  // const instance = Axios.prototype.request.bind(context)
-  const instance = Axios.prototype.request
+  // 给 request 内部绑定this
+  const instance = Axios.prototype.request.bind(context)
+  // const instance = Axios.prototype.request
   extend(instance, context)
   return instance as AxiosInstance
 }
