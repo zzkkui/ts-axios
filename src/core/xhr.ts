@@ -6,7 +6,7 @@ let ASYNC: boolean = true
 
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
   return new Promise((resolve, reject) => {
-    const { data = null, url, method = 'get', headers, responseType, timeout } = config
+    const { data = null, url, method = 'get', headers, responseType, timeout, cancelToken } = config
     const request = new XMLHttpRequest()
     if (timeout) {
       request.timeout = timeout
@@ -70,6 +70,15 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         request.setRequestHeader(name, headers[name])
       }
     })
+
+    if (cancelToken) {
+      // 这里的回调会在执行 cancel(CancelToken的参数) 方法的时候执行回调then
+      cancelToken.promise.then(reason => {
+        request.abort()
+        reject(reason)
+      })
+    }
+
     request.send(data)
   })
 }
