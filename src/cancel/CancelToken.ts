@@ -38,6 +38,7 @@ export default class CancelToken {
         return
       }
       this.reason = new Cancel(message)
+      // 这里执行了 resolve，在 xhr.ts 中就会执行 then 回调
       resolvePromise(this.reason)
     })
   }

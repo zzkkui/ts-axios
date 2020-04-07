@@ -10,7 +10,7 @@ import Cancel, { isCancel } from './cancel/Cancel'
 
 function createInstance(config: AxiosRequestConfig): AxiosStatic {
   const context = new Axios(config)
-  // 给 request 内部绑定this
+  // 给 request 函数 内部绑定this
   const instance = Axios.prototype.request.bind(context)
   // const instance = Axios.prototype.request
   extend(instance, context)
@@ -26,6 +26,6 @@ axios.CancelToken = CancelToken
 axios.Cancel = Cancel
 axios.isCancel = isCancel
 
-console.dir(axios)
+// console.dir(axios)
 
 export default axios
